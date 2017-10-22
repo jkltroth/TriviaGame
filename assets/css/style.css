@@ -8,13 +8,35 @@ body {
     background-color: #ffffff;
     
     /* Change background image as needed */
-    background-image:
+    /* background-image: */
 }
 
 .page-header, h1 {
     text-align: center;
     margin-top: 0px;
     font-size: 46px;
+}
+
+.question{
+    font-weight: 600;
+}
+.answers {
+  margin-bottom: 20px;
+}
+.answers label{
+  display: block;
+}
+
+#startQuiz, #submitQuiz{
+    font-family: "Source Sans Pro",Calibri,Candara,Arial,sans-serif;
+    font-size: 20px;
+    background-color:#333333;
+    color: #fff;
+    border: 0px;
+    border-radius: 3px;
+    padding: 20px;
+    cursor: pointer;
+    margin-bottom: 5px;
 }
 
 .footer {

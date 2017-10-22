@@ -1,6 +1,6 @@
-// Declaring variables for each major HTML element
-const quizContainer = $('#quiz');
-const resultsContainer = $('#results');
+// // Declaring variables for each major HTML element
+const quizContainer = document.getElementById('quiz');
+const resultsContainer = document.getElementById('results');
 
 //  Variable that will hold our setInterval that runs the stopwatch
 var intervalId;
@@ -8,13 +8,13 @@ var intervalId;
 //prevents the clock from being sped up unnecessarily
 var clockRunning = false;
 
-
 var countdownTimer = {
 
     time: 90,
 
     start: function () {
         if (!clockRunning) {
+            $("#timer").html("1:30");
             intervalId = setInterval(countdownTimer.count, 1000);
             clockRunning = true;
         }
@@ -28,11 +28,19 @@ var countdownTimer = {
     // A timer function
     count: function () {
 
-        countdownTimer.time--;
+        if (countdownTimer.time > 0) {
 
-        let currentTime = countdownTimer.timeConverter(countdownTimer.time);
+            countdownTimer.time--;
 
-        $('#timer').html(currentTime);
+            let currentTime = countdownTimer.timeConverter(countdownTimer.time);
+
+            $('#timer').html(currentTime);
+
+        } else if (countdownTimer.time <= 0) {
+
+            showResults();
+
+        };
 
     },
 
@@ -55,6 +63,29 @@ var countdownTimer = {
 
 };
 
+function createStartButton() {
+    var startButton = $('<button>');
+
+    startButton.attr('id', 'startQuiz')
+
+    startButton.attr('type', 'button');
+
+    startButton.text('Start');
+
+    $('#quiz').html(startButton);
+};
+
+function createSubmitButton() {
+    let submitButton = $('<button>');
+
+    submitButton.attr('id', 'submitQuiz')
+
+    submitButton.attr('type', 'button');
+
+    submitButton.text('Submit');
+
+    $('#quiz').append(submitButton);
+};
 
 // Creating an array to hold questions for quiz, and assigning to variable 'myQuestions'
 const myQuestions = [{
@@ -144,6 +175,8 @@ function buildQuiz() {
     // Combine output list into one string of HTML and put it on the page
     $('#quiz').html(output.join(''));
 
+    createSubmitButton();
+
 };
 
 function showResults() {
@@ -170,25 +203,29 @@ function showResults() {
 
     });
 
+    countdownTimer.stop();
+
+    $("#timer").empty();
+
+    $("#quiz").empty();
+
     // show number of correct answers out of total
     resultsContainer.innerHTML = numCorrect + ' out of ' + myQuestions.length;
+
 };
 
-// When the document is ready...
-$(document).ready(function () {
-
-   
-    
-});
+createStartButton();
 
 $('#startQuiz').on('click', function () {
-
-    $("#timer").html("1:30");
 
     countdownTimer.start();
 
     buildQuiz();
 
-});
+    $('#submitQuiz').on('click', function () {
 
-$('#submit').on('click', showResults);
+        showResults();
+
+    });
+
+});
